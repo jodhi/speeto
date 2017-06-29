@@ -1,22 +1,32 @@
-def help(): #help section for program usage & options
+### Tested only in python 3
+
+
+def peeto_help():
+    # help section for program usage & options
     print('Usage: main.py args')
     print('Args: blabla')
 
-def init(): #load/check saved configuration (last/saved session) from local storage
-    #check whether local saved session available
+
+def init():  # load/check saved configuration (last/saved session) from local storage
+    # check whether local saved session available
     print('checking')
 
-def start(): #interactive mode, including listener & client setup
+
+def start():  # interactive mode, including listener & client setup
     print('Hi lets get started from the beginning')
+
 
 def console():
     while True:
         print('')
         inp = input(">>> ")
-        if(inp=='help'):
-            help()
-        if(inp=='start'):
+        if inp == 'help':
+            peeto_help()
+        elif inp == 'start':
             start()
+        elif inp == 'exit':
+            exit()
+
 
 def main():
     print('Welcome to Speeto console')
@@ -27,8 +37,6 @@ def main():
     print('------------------------')
 
     console()
-
-
 
 
 if __name__ == '__main__':

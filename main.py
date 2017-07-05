@@ -4,19 +4,25 @@ class speeto:
         self.start = 0
         self.temp_file_name = '.speeto_temp'
         self.temp_file_use = False
-        # load/check saved configuration (last/saved sesdsion) from local storage
-        print('checking')
+        # load/check saved configuration (last/saved session) from local storage
         try:
             with open(self.temp_file_name,'r') as temp_file:
                 self.temp_file_use = True
-                print("using session file")
+                print("using session file\n")
         except FileNotFoundError:
             # raise
             with open(self.temp_file_name,'w') as temp_file:
-                temp_file.write("[speeto_temp_file]")
+                temp_file.write("[speeto_temp_file]\n")
                 self.temp_file_use = True
-                print('creating new session file')
-    def wr
+                print('creating new session file\n')
+
+    def write_file(self,data):
+        if self.temp_file_use == False:
+            return -1
+        else:
+            with open(self.temp_file_name,'a') as temp_file:
+                temp_file.writelines(data)
+
 
 
 def help():

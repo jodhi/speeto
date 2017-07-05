@@ -1,5 +1,7 @@
 # speeto
-Multiplatform speedtest utility
+Multiplatform P2P speedtest utility
+
+Peer To Peer Speedtest
 
 development status: In progress
 

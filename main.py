@@ -1,15 +1,30 @@
-### Tested only in python 3
+# Tested only in python 3
+class speeto:
+    def __init__(self):
+        self.start = 0
+        self.temp_file_name = '.speeto_temp'
+        self.temp_file_use = False
+        # load/check saved configuration (last/saved sesdsion) from local storage
+        print('checking')
+        try:
+            with open(self.temp_file_name,'r') as temp_file:
+                self.temp_file_use = True
+                print("using session file")
+        except FileNotFoundError:
+            # raise
+            with open(self.temp_file_name,'w') as temp_file:
+                temp_file.write("[speeto_temp_file]")
+                self.temp_file_use = True
+                print('creating new session file')
+    def wr
 
 
-def peeto_help():
+def help():
     # help section for program usage & options
     print('Usage: main.py args')
     print('Args: blabla')
 
 
-def init():  # load/check saved configuration (last/saved session) from local storage
-    # check whether local saved session available
-    print('checking')
 
 
 def start():  # interactive mode, including listener & client setup
@@ -21,7 +36,7 @@ def console():
         print('')
         inp = input(">>> ")
         if inp == 'help':
-            peeto_help()
+            help()
         elif inp == 'start':
             start()
         elif inp == 'exit':
@@ -29,6 +44,7 @@ def console():
 
 
 def main():
+    a = speeto()
     print('Welcome to Speeto console')
     print('Multiplatform speed test')
     print('')
@@ -40,5 +56,4 @@ def main():
 
 
 if __name__ == '__main__':
-    init()
     main()

@@ -1,4 +1,6 @@
 # Tested only in python 3
+import socket
+
 class speeto:
     def __init__(self):
         self.start = 0
@@ -23,6 +25,31 @@ class speeto:
             with open(self.temp_file_name,'a') as temp_file:
                 temp_file.writelines(data)
 
+    def create_socket(self):
+        HOST = ''
+        PORT = 50007
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.bind((HOST, PORT))
+            sock.listen(1)
+            conn, addr = sock.accept()
+            print('Listening .... \n')
+            print('note: you can run \"ifconfig\" to know your IP address\n')
+            with conn:
+                print('connected to ', addr)
+                while True:
+                    data = conn.recv(1024)
+                    if not data: break
+                    conn.sendall(data)
+
+    def connect_socket(self):
+        HOST = ''
+        PORT = 50007
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect((HOST, PORT))
+            sock.sendall(b'helllo')
+            data = sock.recv(1024)
+        print('get ', data)
+
 
 
 def help():
@@ -37,7 +64,7 @@ def start():  # interactive mode, including listener & client setup
     print('Hi lets get started from the beginning')
 
 
-def console():
+def console(obj):
     while True:
         print('')
         inp = input(">>> ")
@@ -47,6 +74,10 @@ def console():
             start()
         elif inp == 'exit':
             exit()
+        elif inp == 'connect':
+            obj.connect_socket()
+        elif inp == 'listen':
+            obj.create_socket()
 
 
 def main():
@@ -58,7 +89,7 @@ def main():
     print('type "start" for interactive mode')
     print('------------------------')
 
-    console()
+    console(a)
 
 
 if __name__ == '__main__':

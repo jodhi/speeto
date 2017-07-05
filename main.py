@@ -25,7 +25,7 @@ class speeto:
             with open(self.temp_file_name,'a') as temp_file:
                 temp_file.writelines(data)
 
-    def create_socket(self, PORT = 50007):
+    def create_socket(self, PORT = 8989):
         HOST = ''
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -41,7 +41,7 @@ class speeto:
                     if not data: break
                     conn.sendall(data)
 
-    def connect_socket(self, HOST = '127.0.0.1', PORT = 50007):
+    def connect_socket(self, HOST , PORT):
         print('Connecting.... to ',HOST, ' with port ',PORT)
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -66,17 +66,25 @@ def start():  # interactive mode, including listener & client setup
 
 def console(obj):
     while True:
-        print('')
         inp = input(">>> ")
+        inp_splitted = str.split(inp)
+
         if inp == 'help':
             help()
         elif inp == 'start':
             start()
         elif inp == 'exit':
             exit()
-        elif inp == 'connect':
-            obj.connect_socket()
-        elif inp == 'listen':
+        elif inp_splitted[0] == 'connect':
+            if len(inp_splitted) != 3:
+                print('Bad Argument')
+                print('Example: connect 127.0.0.1 8989')
+                continue
+            HOST = inp_splitted[1]
+            PORT = int(inp_splitted[2])
+            obj.connect_socket(HOST,PORT)
+
+        elif inp_splitted[0] == 'listen':
             obj.create_socket()
 
 

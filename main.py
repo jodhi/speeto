@@ -25,9 +25,9 @@ class speeto:
             with open(self.temp_file_name,'a') as temp_file:
                 temp_file.writelines(data)
 
-    def create_socket(self):
+    def create_socket(self, PORT = 50007):
         HOST = ''
-        PORT = 50007
+
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.bind((HOST, PORT))
             sock.listen(1)
@@ -41,9 +41,9 @@ class speeto:
                     if not data: break
                     conn.sendall(data)
 
-    def connect_socket(self):
-        HOST = ''
-        PORT = 50007
+    def connect_socket(self, HOST = '127.0.0.1', PORT = 50007):
+        print('Connecting.... to ',HOST, ' with port ',PORT)
+
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect((HOST, PORT))
             sock.sendall(b'helllo')

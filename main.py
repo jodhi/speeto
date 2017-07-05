@@ -43,11 +43,16 @@ class speeto:
 
     def connect_socket(self, HOST , PORT):
         print('Connecting.... to ',HOST, ' with port ',PORT)
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+                sock.connect((HOST, PORT))
+                sock.sendall(b'helllo')
+                data = sock.recv(1024)
+        except ConnectionRefusedError:
+            print('Server refusing connection')
+            print('maybe the listener not run yet')
 
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            sock.connect((HOST, PORT))
-            sock.sendall(b'helllo')
-            data = sock.recv(1024)
+            return -1
         print('get ', data)
 
 
@@ -63,6 +68,8 @@ def help():
 def start():  # interactive mode, including listener & client setup
     print('Hi lets get started from the beginning')
 
+def bad_args():
+    print('Bad Arguments')
 
 def console(obj):
     while True:
@@ -77,11 +84,17 @@ def console(obj):
             exit()
         elif inp_splitted[0] == 'connect':
             if len(inp_splitted) != 3:
-                print('Bad Argument')
+                bad_args()
                 print('Example: connect 127.0.0.1 8989')
                 continue
+
+            try:
+                PORT = int(inp_splitted[2])
+            except:
+                bad_args()
+                continue
+
             HOST = inp_splitted[1]
-            PORT = int(inp_splitted[2])
             obj.connect_socket(HOST,PORT)
 
         elif inp_splitted[0] == 'listen':

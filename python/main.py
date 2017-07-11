@@ -22,7 +22,7 @@ def bad_args():
 def console(obj):
     while True:
         inp = input(">>> ")
-        inp_splitted = str.split(inp)
+        inp_splitted = inp.split()
 
         if inp == 'help':
             help()
@@ -47,6 +47,8 @@ def console(obj):
 
         elif inp_splitted[0] == 'listen':
             obj.create_socket()
+        else:
+            print('Bad command')
 
 
 def main():

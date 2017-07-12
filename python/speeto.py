@@ -1,4 +1,4 @@
-import socket
+import socket,time
 
 class speeto:
     def __init__(self):
@@ -41,6 +41,7 @@ class speeto:
                     conn.sendall(data)
 
     def connect_socket(self, HOST , PORT):
+        # handshake
         print('Connecting.... to ',HOST, ' with port ',PORT)
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -52,4 +53,15 @@ class speeto:
             print('maybe the listener not run yet')
 
             return -1
+
         print('get ', data)
+        return True
+
+    def test_speed(self, HOST, PORT):
+        # Send data packet for speed test
+        print('Test Speed')
+
+    def test_latency(self, HOST, PORT):
+        # Latency  test
+        # using time lib
+

@@ -1,7 +1,8 @@
 # Tested only in python 3
 
+import signal
+import sys
 from speeto import speeto
-
 
 
 
@@ -9,8 +10,6 @@ def help():
     # help section for program usage & options
     print('Usage: main.py args')
     print('Args: blabla')
-
-
 
 
 def start():  # interactive mode, including listener & client setup
@@ -29,6 +28,7 @@ def console(obj):
         elif inp == 'start':
             start()
         elif inp == 'exit':
+            print("\nSee ya later")
             exit()
         elif inp_splitted[0] == 'connect':
             if len(inp_splitted) != 3:
@@ -51,6 +51,12 @@ def console(obj):
             print('Bad command')
 
 
+def exit_gracefully(signum,frame):
+    signal.signal(signal.SIGINT, original_sigint)
+    print("\nBye Bye, see ya later")
+    sys.exit(1)
+    signal.signal(signal.SIGINT,exit_gracefully)
+
 def main():
     a = speeto()
     print('Welcome to Speeto console')
@@ -64,4 +70,7 @@ def main():
 
 
 if __name__ == '__main__':
+    original_sigint = signal.getsignal(signal.SIGINT)
+    signal.signal(signal.SIGINT, exit_gracefully)
+    
     main()

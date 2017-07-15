@@ -65,3 +65,4 @@ class speeto:
         # Latency  test
         # using time lib
         print('Testing latency')
+

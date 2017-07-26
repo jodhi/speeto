@@ -46,9 +46,9 @@ class speeto:
                     if handshake.decode('utf-8') =="test_speed" :
 
                         conn.sendall(b'accept1')
-                        data = conn.recv(1024)
-                        data = conn.recv(10240)
-                        data = conn.recv(102400)
+                        data = conn.recv(self.QUOTA_5)
+                        data = conn.recv(self.QUOTA_5)
+                        data = conn.recv(self.QUOTA_5)
 
                         conn.sendall(b'accept2')
 
@@ -63,6 +63,9 @@ class speeto:
                         conn.sendall(b'.' * self.QUOTA_4)
                         self.speed_down2 = (self.QUOTA_4 / 1000) / (time.time() - base_time_speed1)
                         print('speed 2 is ', self.speed_down2, 'KBps')
+
+                        conn.sendall(self.speed_down1)
+                        conn.sendall(self.speed_down2)
                     sock.close()
 
     def connect_socket(self, HOST , PORT):

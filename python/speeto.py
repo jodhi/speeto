@@ -42,17 +42,18 @@ class speeto:
 
                         conn.sendall(b'accept1')
                         data = conn.recv(1024)
-                        print('data is ',data)
-                        data = conn.recv(1024)
-                        print('data is ', data)
+                        data = conn.recv(10240)
+                        data = conn.recv(102400)
 
+                        conn.sendall(b'accept2')
                     sock.close()
 
     def connect_socket(self, HOST , PORT):
         # handshake
-        QUOTA_1 = 1000
-        QUOTA_2 = 100000
-        QUOTA_3 = 5000000
+        QUOTA_1 = 100000
+        QUOTA_2 = 500000
+        QUOTA_3 = 1000000
+        QUOTA_4 = 2000000
 
 
         base_time = time.time()
@@ -66,24 +67,26 @@ class speeto:
                 if acc.decode('utf-8') == "accept1":
                     self.latency = time.time() - base_time
                     # test uplink speed
-                    print("connected, testing speed...")
+                    print("connected, testing upload speed...")
                     # speed test 1
                     base_time_speed1 = time.time()
                     sock.sendall(b'.' * QUOTA_1)
-                    self.speed1 = time.time() - base_time_speed1
-                    print('speed 1 is ', self.speed1)
+                    self.speed1 = (QUOTA_1/1000) / (time.time() - base_time_speed1)
+                    print('speed 1 is ', self.speed1 , 'KBps')
 
                     # speed test 2
                     base_time_speed2 = time.time()
                     sock.sendall(b'.' * QUOTA_2)
-                    self.speed2 = time.time() - base_time_speed2
-                    print('speed 2 is ', self.speed2)
+                    self.speed2 =  (QUOTA_2/1000) / (time.time() - base_time_speed1)
+                    print('speed 2 is ', self.speed2 , 'KBps')
 
                     # speed test 3
                     base_time_speed3 = time.time()
                     sock.sendall(b'.' * QUOTA_3)
-                    self.speed3 = time.time() - base_time_speed3
-                    print('speed 3 is ', self.speed3)
+                    self.speed3 =  (QUOTA_3/1000) / (time.time() - base_time_speed3)
+                    print('speed 3 is ', self.speed3 , 'KBps')
+
+                    # condition for more test if too fast
 
                 sock.close()
         except ConnectionRefusedError:

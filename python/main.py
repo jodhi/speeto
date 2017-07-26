@@ -46,10 +46,20 @@ def console(obj):
             obj.connect_socket(HOST,PORT)
 
         elif inp_splitted[0] == 'listen':
-            obj.create_socket()
-        else:
-            print('Bad command')
+            if len(inp_splitted) != 2:
+                bad_args()
+                print('Example: listen 8989')
+                continue
 
+            try:
+                PORT = int(inp_splitted[1])
+            except:
+                bad_args()
+                continue
+
+            obj.create_socket(PORT)
+        else:
+            bad_args()
 
 def exit_gracefully(signum,frame):
     signal.signal(signal.SIGINT, original_sigint)

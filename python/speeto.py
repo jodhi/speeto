@@ -5,6 +5,11 @@ class speeto:
         self.start = 0
         self.temp_file_name = '.speeto_temp'
         self.temp_file_use = False
+        self.QUOTA_1 = 100000
+        self.QUOTA_2 = 500000
+        self.QUOTA_3 = 1000000
+        self.QUOTA_4 = 2000000
+        self.QUOTA_5 = 5000000
         # load/check saved configuration (last/saved session) from local storage
         try:
             with open(self.temp_file_name,'r') as temp_file:
@@ -50,10 +55,7 @@ class speeto:
 
     def connect_socket(self, HOST , PORT):
         # handshake
-        QUOTA_1 = 100000
-        QUOTA_2 = 500000
-        QUOTA_3 = 1000000
-        QUOTA_4 = 2000000
+
 
 
         base_time = time.time()
@@ -70,23 +72,29 @@ class speeto:
                     print("connected, testing upload speed...")
                     # speed test 1
                     base_time_speed1 = time.time()
-                    sock.sendall(b'.' * QUOTA_1)
-                    self.speed1 = (QUOTA_1/1000) / (time.time() - base_time_speed1)
+                    sock.sendall(b'.' * self.QUOTA_1)
+                    self.speed1 = (self.QUOTA_1/1000) / (time.time() - base_time_speed1)
                     print('speed 1 is ', self.speed1 , 'KBps')
 
                     # speed test 2
                     base_time_speed2 = time.time()
-                    sock.sendall(b'.' * QUOTA_2)
-                    self.speed2 =  (QUOTA_2/1000) / (time.time() - base_time_speed1)
+                    sock.sendall(b'.' * self.QUOTA_2)
+                    self.speed2 =  (self.QUOTA_2/1000) / (time.time() - base_time_speed1)
                     print('speed 2 is ', self.speed2 , 'KBps')
 
                     # speed test 3
                     base_time_speed3 = time.time()
-                    sock.sendall(b'.' * QUOTA_3)
-                    self.speed3 =  (QUOTA_3/1000) / (time.time() - base_time_speed3)
+                    sock.sendall(b'.' * self.QUOTA_3)
+                    self.speed3 =  (self.QUOTA_3/1000) / (time.time() - base_time_speed3)
                     print('speed 3 is ', self.speed3 , 'KBps')
 
                     # condition for more test if too fast
+
+                if acc.decode('utf-8') == "accept1":
+                    print("here")
+                    # Download Speed
+                    data = conn.recv(102400)
+                    data = conn.recv(102400)
 
                 sock.close()
         except ConnectionRefusedError:

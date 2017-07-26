@@ -54,15 +54,15 @@ class speeto:
 
                         # speed test 1
                         base_time_speed1 = time.time()
-                        sock.sendall(b'.' * self.QUOTA_3)
-                        self.speed1 = (self.QUOTA_3 / 1000) / (time.time() - base_time_speed1)
-                        print('speed 1 is ', self.speed1, 'KBps')
+                        conn.sendall(b'.' * self.QUOTA_3)
+                        self.speed_down1 = (self.QUOTA_3 / 1000) / (time.time() - base_time_speed1)
+                        print('speed 1 is ', self.speed_down1, 'KBps')
 
                         # speed test 2
                         base_time_speed2 = time.time()
-                        sock.sendall(b'.' * self.QUOTA_4)
-                        self.speed2 = (self.QUOTA_4 / 1000) / (time.time() - base_time_speed1)
-                        print('speed 2 is ', self.speed2, 'KBps')
+                        conn.sendall(b'.' * self.QUOTA_4)
+                        self.speed_down2 = (self.QUOTA_4 / 1000) / (time.time() - base_time_speed1)
+                        print('speed 2 is ', self.speed_down2, 'KBps')
                     sock.close()
 
     def connect_socket(self, HOST , PORT):

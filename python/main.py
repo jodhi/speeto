@@ -56,8 +56,13 @@ def console(obj):
             except:
                 bad_args()
                 continue
-
-            obj.create_socket(PORT)
+            
+            try:
+                obj.create_socket(PORT)
+            except:
+                print('permission denied')
+                print('try another or higher port')
+                continue
         else:
             bad_args()
 

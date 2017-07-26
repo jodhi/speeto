@@ -51,6 +51,18 @@ class speeto:
                         data = conn.recv(102400)
 
                         conn.sendall(b'accept2')
+
+                        # speed test 1
+                        base_time_speed1 = time.time()
+                        sock.sendall(b'.' * self.QUOTA_3)
+                        self.speed1 = (self.QUOTA_3 / 1000) / (time.time() - base_time_speed1)
+                        print('speed 1 is ', self.speed1, 'KBps')
+
+                        # speed test 2
+                        base_time_speed2 = time.time()
+                        sock.sendall(b'.' * self.QUOTA_4)
+                        self.speed2 = (self.QUOTA_4 / 1000) / (time.time() - base_time_speed1)
+                        print('speed 2 is ', self.speed2, 'KBps')
                     sock.close()
 
     def connect_socket(self, HOST , PORT):
@@ -65,7 +77,6 @@ class speeto:
                 sock.connect((HOST, PORT))
                 sock.sendall(b'test_speed')
                 acc = sock.recv(1024)
-                print('acc is ',acc)
                 if acc.decode('utf-8') == "accept1":
                     self.latency = time.time() - base_time
                     # test uplink speed
@@ -91,10 +102,10 @@ class speeto:
                     # condition for more test if too fast
 
                 if acc.decode('utf-8') == "accept1":
-                    print("here")
+                    print("Testing Download Speed")
                     # Download Speed
-                    data = conn.recv(102400)
-                    data = conn.recv(102400)
+                    data = sock.recv(102400)
+                    data = sock.recv(102400)
 
                 sock.close()
         except ConnectionRefusedError:

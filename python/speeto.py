@@ -1,4 +1,6 @@
-import socket,time,sys
+import socket,sys
+import struct
+import time
 
 class speeto:
     def __init__(self):
@@ -46,9 +48,13 @@ class speeto:
                     if handshake.decode('utf-8') =="test_speed" :
 
                         conn.sendall(b'accept1')
-                        data = conn.recv(self.QUOTA_5)
-                        data = conn.recv(self.QUOTA_5)
-                        data = conn.recv(self.QUOTA_5)
+                        data_received = self.recv_msg(conn)
+                        data_received = self.recv_msg(conn)
+                        data_received = self.recv_msg(conn)
+
+                        # data = conn.recv(self.QUOTA_5)
+                        # data = conn.recv(self.QUOTA_5)
+                        # data = conn.recv(self.QUOTA_5)
                         print(len(data))
                         conn.sendall(b'accept2')
 
@@ -86,7 +92,7 @@ class speeto:
                     print("connected, testing upload speed...")
                     # speed test 1
                     base_time_speed1 = time.time()
-                    sock.sendall(b'.' * self.QUOTA_1)
+                    self.send_msg(sock, b'.' * 80)
                     self.speed1 = (self.QUOTA_1/1000) / (time.time() - base_time_speed1)
                     print('speed 1 is ', self.speed1 , 'KBps')
 

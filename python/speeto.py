@@ -1,4 +1,4 @@
-import socket,time
+import socket,time,sys
 
 class speeto:
     def __init__(self):
@@ -60,7 +60,7 @@ class speeto:
 
                         # speed test 2
                         base_time_speed2 = time.time()
-                        conn.sendall(b'.',self.QUOTA_3)
+                        conn.sendall(b'.' * self.QUOTA_3)
                         self.speed_down2 = (self.QUOTA_3 / 1000) / (time.time() - base_time_speed2)
                         print('speed 2 is ', self.speed_down2, 'KBps')
 
@@ -108,10 +108,10 @@ class speeto:
                 if acc.decode('utf-8') == "accept2":
                     print("Testing Download Speed")
                     # Download Speed
-                    data = sock.recv(10002400)
-                    print(len(data))
-                    data = sock.recv(10002400)
-                    print(len(data))
+                    data = sock.recv(1048576)
+                    print(sys.getsizeof(data))
+                    data = sock.recv(1048576)
+                    print(sys.getsizeof(data))
                     print(sock.recv(2048))
                     print(sock.recv(2048))
                 sock.close()
@@ -128,5 +128,26 @@ class speeto:
     def test_speed(self, HOST, PORT):
         # Send data packet for speed test
         print('Test Speed')
+
+    def send_msg(self,sock, msg):
+        msg = struct.pack('>I',len(msg))+msg
+        sock.sendall(msg)
+
+    def recv_msg(self,sock):
+        raw_msglen = recvall(sock,4)
+        if not raw_msglen:
+            return None
+        msglen = struct.unpack('>I',raw_msglen)[0]
+
+        return recvall(sock,msglen)
+
+    def recvall(self,sock, n):
+        data = ''
+        while len(data) < n:
+            packet  = sock.recv(n-len(data))
+            if not packet:
+                return None
+            data += packet
+        return data
 
 
